@@ -7,6 +7,22 @@ import { Component } from '@stencil/core';
 })
 export class AppHome {
 
+  public componentDidLoad(): void {
+    this.presentLoading();
+  }
+
+  async presentLoading() {
+    const loadingController = document.querySelector('ion-loading-controller');
+    await loadingController.componentOnReady();
+
+    const loadingElement = await loadingController.create({
+      message: 'Please wait...',
+      spinner: 'crescent',
+      duration: 2000
+    });
+    return await loadingElement.present();
+  }
+
   render() {
     return (
       <div class='app-home'>
