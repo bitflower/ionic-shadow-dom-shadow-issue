@@ -1,4 +1,4 @@
-import { Component } from '@stencil/core';
+import { Component, Prop } from '@stencil/core';
 
 @Component({
   tag: 'app-home',
@@ -7,17 +7,20 @@ import { Component } from '@stencil/core';
 })
 export class AppHome {
 
-  public componentDidLoad(): void {
-    this.presentLoading();
+  @Prop({
+    connect: 'ion-loading-controller'
+  })
+  loadingCtrl: HTMLIonLoadingControllerElement;
+
+  public async componentDidLoad(): Promise<void> {
+    await this.presentLoading();
   }
 
   async presentLoading() {
-    const loadingController = document.querySelector('ion-loading-controller');
-    await loadingController.componentOnReady();
-
-    const loadingElement = await loadingController.create({
+    await this.loadingCtrl.componentOnReady();
+    const loadingElement = await this.loadingCtrl.create({
       message: 'Please wait...',
-      spinner: 'crescent',
+      // spinner: 'crescent',
       duration: 2000
     });
     return await loadingElement.present();
@@ -38,6 +41,9 @@ export class AppHome {
             Profile page
           </button>
         </stencil-route-link>
+        <button onClick={() => this.presentLoading()}>
+          Show waiting
+        </button>
       </div>
     );
   }
