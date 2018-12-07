@@ -1,4 +1,5 @@
 import { Component, Prop } from '@stencil/core';
+import { ToastOptions, LoadingOptions } from '@ionic/core';
 
 @Component({
   tag: 'app-home',
@@ -12,18 +13,52 @@ export class AppHome {
   })
   loadingCtrl: HTMLIonLoadingControllerElement;
 
+  @Prop({
+    connect: 'ion-modal-controller'
+  })
+  modalCtrl: HTMLIonModalControllerElement;
+
+  @Prop({
+    connect: 'ion-toast-controller'
+  })
+  toastCtrl: HTMLIonToastControllerElement;
+
+
   public async componentDidLoad(): Promise<void> {
-    await this.presentLoading();
+    // await this.presentLoading();
   }
 
   async presentLoading() {
     await this.loadingCtrl.componentOnReady();
-    const loadingElement = await this.loadingCtrl.create({
+    const options: LoadingOptions = {
       message: 'Please wait...',
-      // spinner: 'crescent',
+      spinner: 'dots',
       duration: 2000
-    });
+    };
+    const loadingElement = await this.loadingCtrl.create(options);
     return await loadingElement.present();
+  }
+
+  async showToast(message = "Mmmmm, buttered toast") {
+    // const toastCtrl = addToastCtrl();
+    await this.toastCtrl.componentOnReady();
+    const options: ToastOptions = {
+      message,
+      position: "bottom",
+      duration: 3000,
+      color: "dark"
+    };
+    const toast = await this.toastCtrl.create(options);
+    return await toast.present();
+  }
+
+  async presentModal() {
+    const modalController = await this.modalCtrl.componentOnReady();
+    const modal = await modalController.create({
+      component: 'my-modal-component',
+      componentProps: { modalController },
+    });
+    await modal.present();
   }
 
   render() {
@@ -43,6 +78,12 @@ export class AppHome {
         </stencil-route-link>
         <button onClick={() => this.presentLoading()}>
           Show waiting
+        </button>
+        <button onClick={() => this.presentModal()}>
+          Show modal
+        </button>
+        <button onClick={() => this.showToast()}>
+          Show toast
         </button>
       </div>
     );
