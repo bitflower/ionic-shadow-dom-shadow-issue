@@ -55,7 +55,7 @@ export class AppHome {
   async presentModal() {
     const modalController = await this.modalCtrl.componentOnReady();
     const modal = await modalController.create({
-      component: 'my-modal-component',
+      component: 'app-dialog',
       componentProps: { modalController },
     });
     await modal.present();

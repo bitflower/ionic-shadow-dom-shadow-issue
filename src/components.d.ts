@@ -18,6 +18,13 @@ import {
 
 export namespace Components {
 
+  interface AppDialog {
+    'modalController': HTMLIonModalControllerElement;
+  }
+  interface AppDialogAttributes extends StencilHTMLAttributes {
+    'modalController'?: HTMLIonModalControllerElement;
+  }
+
   interface AppHome {}
   interface AppHomeAttributes extends StencilHTMLAttributes {}
 
@@ -34,17 +41,25 @@ export namespace Components {
 
 declare global {
   interface StencilElementInterfaces {
+    'AppDialog': Components.AppDialog;
     'AppHome': Components.AppHome;
     'AppProfile': Components.AppProfile;
     'AppRoot': Components.AppRoot;
   }
 
   interface StencilIntrinsicElements {
+    'app-dialog': Components.AppDialogAttributes;
     'app-home': Components.AppHomeAttributes;
     'app-profile': Components.AppProfileAttributes;
     'app-root': Components.AppRootAttributes;
   }
 
+
+  interface HTMLAppDialogElement extends Components.AppDialog, HTMLStencilElement {}
+  var HTMLAppDialogElement: {
+    prototype: HTMLAppDialogElement;
+    new (): HTMLAppDialogElement;
+  };
 
   interface HTMLAppHomeElement extends Components.AppHome, HTMLStencilElement {}
   var HTMLAppHomeElement: {
@@ -65,12 +80,14 @@ declare global {
   };
 
   interface HTMLElementTagNameMap {
+    'app-dialog': HTMLAppDialogElement
     'app-home': HTMLAppHomeElement
     'app-profile': HTMLAppProfileElement
     'app-root': HTMLAppRootElement
   }
 
   interface ElementTagNameMap {
+    'app-dialog': HTMLAppDialogElement;
     'app-home': HTMLAppHomeElement;
     'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
