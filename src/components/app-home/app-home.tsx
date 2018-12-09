@@ -25,7 +25,6 @@ export class AppHome {
 
 
   public async componentDidLoad(): Promise<void> {
-    // await this.presentLoading();
   }
 
   async presentLoading() {
